@@ -227,7 +227,9 @@ class OpenTripPlannerPluginIsochronesWorker(QThread):
                     else:
                         isochrones_arriveby_value = self.dlg.Isochrones_ArriveBy.isChecked() # Receiving Value from GUI: QCheckBox
                     if isochrones_arriveby_value is not None: # Check if received value is NULL
-                        isochrones_arriveby_urlstring = '&arriveBy=' + str(isochrones_arriveby_value) # Concatenate to URL string if option is used and value is not NULL
+                        # to correct error 500 response using arriveBy:
+                        # due to otp jar weird behaviour with arriveBy, toPlace must be present WITH fromPlace, and using the same coordinates
+                        isochrones_arriveby_urlstring = '&toPlace=' + str(y) + ',' + str(x) + '&arriveBy=' + str(isochrones_arriveby_value) # Concatenate to URL string if option is used and value is not NULL
                     else:
                         isochrones_arriveby_urlstring = '' # Leave URL string empty if value is NULL (Empty, not NULL!!)
                 else:
